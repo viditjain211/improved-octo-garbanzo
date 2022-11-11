@@ -11,6 +11,7 @@ const { meta = {} } = Astro.props;
 <html lang="en" class="motion-safe:scroll-smooth 2xl:text-[20px]">
 	<head>
 		<MetaTags {...meta} />
+		<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 	</head>
 
 	<body class="antialiased text-gray-900 dark:text-slate-300 tracking-tight bg-white dark:bg-slate-900">
@@ -21,5 +22,23 @@ const { meta = {} } = Astro.props;
 				content-visibility: auto;
 			}
 		</style>
+		<script>
+			
+			declare global {
+				
+				interface Window {
+					netlifyIdentity: any;
+				}
+			}
+			if (window.netlifyIdentity) {
+			  window.netlifyIdentity.on("init", (user:any) => {
+				if (!user) {
+				  window.netlifyIdentity.on("login", () => {
+					document.location.href = "/admin/";
+				  });
+				}
+			  });
+			}
+		  </script>
 	</body>
 </html>
